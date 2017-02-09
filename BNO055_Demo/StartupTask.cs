@@ -1,5 +1,5 @@
 ﻿/*------------------------------------------------------------------------
-  Adafruit BNO055 Demo for Windows Core IoT: BNO055 IMU chip.
+  Adafruit Bno055 Demo for Windows Core IoT: Bno055 IMU chip.
 
   Written by Rick Lesniak for Adafruit Industries.
 
@@ -30,7 +30,7 @@ namespace BNO055_Demo
 {
     public sealed class StartupTask : IBackgroundTask
     {
-        BNO055 bno055 { get; set; }
+        Bno055 bno055 { get; set; }
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -40,20 +40,20 @@ namespace BNO055_Demo
             //
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
-            bno055 = new BNO055();
+            bno055 = new Bno055();
 
-            await bno055.InitBNO055Async(BNO055.OperationMode.OPERATION_MODE_NDOF, "UART0", 18);
+            await bno055.InitBNO055Async(Bno055.OperationMode.OPERATION_MODE_NDOF, "UART0", 18);
 
-            BNO055.SystemStatus sysStatus = bno055.GetSystemStatus(true);
+            Bno055.SystemStatus sysStatus = bno055.GetSystemStatus(true);
             System.Diagnostics.Debug.WriteLine(string.Format("System Status: Status {0}, Self-Test {1}, Error {2}", sysStatus.StatusReg, sysStatus.SelfTestResult, sysStatus.ErrorReg));
 
-            BNO055.Revisions revision = bno055.GetRevision();
+            Bno055.Revisions revision = bno055.GetRevision();
             System.Diagnostics.Debug.WriteLine(string.Format("Revision: Software {0}, Bootloader {1}, Accel ID {2}, Mag ID {3}, Gyro ID {4}", revision.Software, revision.Bootloader, revision.AccelID, revision.MagID, revision.GyroID));
             Task.Delay(1000).Wait();
 
             while (true)
             {
-                BNO055.Euler euler = bno055.ReadEuler();
+                Bno055.Euler euler = bno055.ReadEuler();
                 if (null != euler)
                     System.Diagnostics.Debug.WriteLine(string.Format("Euler: Pitch {0}, Roll {1}, Heading {2}", euler.Pitch, euler.Roll, euler.Heading));
                 Task.Delay(1000).Wait();
